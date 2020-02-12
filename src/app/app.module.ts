@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core'
+import { NgModule, Component } from '@angular/core'
 import {FormsModule} from '@angular/forms'
 import {Route, RouterModule} from '@angular/router'
 
@@ -8,7 +8,11 @@ import { CustomersComponent } from './customer/customers/customers.component';
 import { CustomersCardComponent } from './customer/customers-card/customers-card.component';
 import { CustomersListComponent } from './customer/customers-list/customers-list.component';
 import { HomeComponent } from './home/home.component';
-import { OrderComponent } from './orders/order/order.component';
+import { LinkActivate } from './link.activate';
+import { CustomerEditComponent } from './customer/customer-edit/customer-edit.component';
+// import { OrderComponent } from './orders/order/order.component';
+import {HttpClientModule} from '@angular/common/http';
+import { DataService } from 'src/common/data.service';
 
 const routes:Route[] = [
   {
@@ -17,11 +21,17 @@ const routes:Route[] = [
   },
   {
     path : 'customers',
-    component : CustomersComponent
+    component : CustomersComponent,
+    // canActivate: [LinkActivate]
+  },
+  {
+    path : 'customers/edit/:id',
+    component : CustomerEditComponent
   },
   {
     path : 'orders',
-    component : OrderComponent
+    // component : OrderComponent
+    loadChildren: () => import ('./orders/orders.module').then(m => m.OrdersModule)
   },
   {
     path : '**',
@@ -36,14 +46,16 @@ const routes:Route[] = [
     CustomersCardComponent,
     CustomersListComponent,
     HomeComponent,
-    OrderComponent
+    CustomerEditComponent
+    // OrderComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [LinkActivate,DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
