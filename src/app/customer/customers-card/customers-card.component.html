@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="row">
+        <div *ngFor="let customer of customers" class="col-sm-6 col-md-4 col-lg-3"> 
+            <div class="card">
+                <div class="card-header">
+                    {{customer.firstName}} {{customer.lastName}}
+                    <i class="fa fa-trash pull-right" (click)="deleteCustomer(customer.id)"></i>
+                </div>
+                <div class="card-body">
+                    <img src="assets/images/{{customer.gender}}.png" class="img"/>
+                    {{customer.address}}
+                    <a class="fa fa-edit pull-right"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
